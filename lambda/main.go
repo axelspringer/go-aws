@@ -17,6 +17,7 @@ package lambda
 
 import (
 	"fmt"
+	"strings"
 
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/service/ssm"
@@ -41,6 +42,27 @@ func (l *Func) GetParameters() ([]*ssm.Parameter, error) {
 	}
 
 	return l.Parameters, err
+}
+
+// GetEnv returns an environemnt of parameter name and value
+func (l *Func) GetEnv() (map[string]string, error) {
+	var err error
+
+	env := make(map[string]string)
+
+	if l.Parameters == nil {
+		_, err = l.GetParameters()
+		if err != nil {
+			return nil, err
+		}
+	}
+
+	for _, parameter := range l.Parameters {
+		// should be improved
+		env[strings.Split(aws.StringValue(parameter.Name), "/")[1]] = aws.StringValue(parameter.Value)
+	}
+
+	return env, err
 }
 
 func (l *Func) getSSMParameters(recursive bool, withDecryption bool, nextToken *string) ([]*ssm.Parameter, error) {
