@@ -13,34 +13,4 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package lambda
-
-import (
-	"github.com/aws/aws-sdk-go/aws"
-	"github.com/aws/aws-sdk-go/aws/session"
-	"github.com/aws/aws-sdk-go/service/ssm"
-	s "github.com/axelspringer/go-aws/store"
-)
-
-const (
-	defaultMaxRetries = 5
-)
-
-// New returns a new wrapper for the Lambda functionality
-func New(projectID string) *Func {
-
-	ssmSession := session.Must(session.NewSession())
-	ssm := ssm.New(ssmSession, &aws.Config{
-		MaxRetries: aws.Int(defaultMaxRetries),
-	})
-
-	store := &s.SSMStore{
-		ProjectID: projectID,
-		SSM:       ssm,
-	}
-
-	return &Func{
-		ProjectID: projectID,
-		Store:     store,
-	}
-}
+package store

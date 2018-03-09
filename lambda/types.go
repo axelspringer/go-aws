@@ -15,11 +15,12 @@
 
 package lambda
 
-import "github.com/aws/aws-sdk-go/service/ssm"
+import (
+	"github.com/axelspringer/go-aws/store"
+)
 
 // Func contains all the information about the lambda
 type Func struct {
-	ProjectID  string
-	Parameters []*ssm.Parameter
-	SSM        *ssm.SSM
+	Store     *store.SSMStore
+	ProjectID string
 }

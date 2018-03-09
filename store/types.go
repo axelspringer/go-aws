@@ -13,34 +13,23 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package lambda
+package store
 
 import (
-	"github.com/aws/aws-sdk-go/aws"
-	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/ssm"
-	s "github.com/axelspringer/go-aws/store"
+	"github.com/aws/aws-sdk-go/service/ssm/ssmiface"
 )
 
-const (
-	defaultMaxRetries = 5
-)
+// Store is the interface to a SSM Store
+type Store interface {
+	GetParameters() ([]*ssm.Parameter, error)
+	GetEnv() (map[string]string, error)
+	SetEnv() error
+}
 
-// New returns a new wrapper for the Lambda functionality
-func New(projectID string) *Func {
-
-	ssmSession := session.Must(session.NewSession())
-	ssm := ssm.New(ssmSession, &aws.Config{
-		MaxRetries: aws.Int(defaultMaxRetries),
-	})
-
-	store := &s.SSMStore{
-		ProjectID: projectID,
-		SSM:       ssm,
-	}
-
-	return &Func{
-		ProjectID: projectID,
-		Store:     store,
-	}
+// SSMStore contains the parameters, secrets, etc. stored in SSM
+type SSMStore struct {
+	ProjectID  string
+	Parameters []*ssm.Parameter
+	SSM        ssmiface.SSMAPI
 }
