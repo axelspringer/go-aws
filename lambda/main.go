@@ -22,14 +22,16 @@ import (
 	"github.com/aws/aws-sdk-go/service/ssm"
 )
 
-// Func contains all the information about the lambda
-type Func struct {
-	ProjectID  string
-	Parameters []*ssm.Parameter
-	SSM        *ssm.SSM
+// New returns a new wrapper for the Lambda functionality
+func New(projectID string) *Func {
+	return &Func{
+		ProjectID: projectID,
+	}
 }
 
-func (l *Func) getParameters() ([]*ssm.Parameter, error) {
+// GetParameters fetches the SSM parameters for the configured ProjectID
+// and also returns the parameters
+func (l *Func) GetParameters() ([]*ssm.Parameter, error) {
 	var err error
 
 	l.Parameters = make([]*ssm.Parameter, 0)
