@@ -47,6 +47,24 @@ func (l *SSMStore) GetParameters() ([]*ssm.Parameter, error) {
 	return l.Parameters, err
 }
 
+// TestEnv is testing for the existence of required parameters
+func (l *SSMStore) TestEnv(parameters []string) (bool, error) {
+	var err error
+
+	env, err := l.GetEnv()
+	if err != nil {
+		return false, err
+	}
+
+	for _, parameter := range parameters {
+		if _, ok := env[parameter]; !ok {
+			return false, fmt.Errorf("%v does not exists", parameter)
+		}
+	}
+
+	return true, err
+}
+
 // SetEnv is setting the available env variables to os
 func (l *SSMStore) SetEnv() error {
 	var err error
@@ -69,7 +87,7 @@ func (l *SSMStore) GetEnv() (map[string]string, error) {
 
 	for _, parameter := range l.Parameters {
 		// should be improved
-		env[strings.Split(aws.StringValue(parameter.Name), "/")[1]] = aws.StringValue(parameter.Value)
+		env[strings.Split(aws.StringValue(parameter.Name), "/")[2]] = aws.StringValue(parameter.Value)
 	}
 
 	return env, err
