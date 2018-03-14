@@ -86,7 +86,7 @@ func (l *SSMStore) GetEnv() (map[string]string, error) {
 	}
 
 	for _, parameter := range l.Parameters {
-		// should be improved
+		// TODO: Refactor to more general solution
 		env[strings.Split(aws.StringValue(parameter.Name), "/")[2]] = aws.StringValue(parameter.Value)
 	}
 

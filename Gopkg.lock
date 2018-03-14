@@ -37,6 +37,18 @@
   version = "v1.13.11"
 
 [[projects]]
+  branch = "master"
+  name = "github.com/axelspringer/go-aws"
+  packages = ["store"]
+  revision = "3eb73fcbdec546d308ebaf92e22385e2470f22dc"
+
+[[projects]]
+  name = "github.com/davecgh/go-spew"
+  packages = ["spew"]
+  revision = "346938d642f2ec3594ed81d874461961cd0faa76"
+  version = "v1.1.0"
+
+[[projects]]
   name = "github.com/go-ini/ini"
   packages = ["."]
   revision = "6333e38ac20b8949a8dd68baa3650f4dee8f39f0"
@@ -47,9 +59,21 @@
   packages = ["."]
   revision = "0b12d6b5"
 
+[[projects]]
+  name = "github.com/pmezard/go-difflib"
+  packages = ["difflib"]
+  revision = "792786c7400a136282c1664665ae0a8db921c6c2"
+  version = "v1.0.0"
+
+[[projects]]
+  name = "github.com/stretchr/testify"
+  packages = ["assert"]
+  revision = "12b6f73e6084dad08a7c6e575284b177ecafbc71"
+  version = "v1.2.1"
+
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "a365a93f66d1269b583f76fb5be96314fe1e2118f655676c15d0d5186076b4a4"
+  inputs-digest = "c2b1d535398cfb3c855280880a36cd2388ffe7dd955c4ff90badf4aab4ffb5b6"
   solver-name = "gps-cdcl"
   solver-version = 1
