@@ -27,31 +27,31 @@ import (
 var _ Store = &SSMStore{}
 
 // New returns a new wrapper for the Lambda functionality
-func New(projectID string) *SSMStore {
+func New(serviceID string) *SSMStore {
 	return &SSMStore{
-		ProjectID: projectID,
+		ServiceID: serviceID, // Setting the ServiceID to an id of a service in SSM
 	}
 }
 
 // GetParameters fetches the SSM parameters for the configured ProjectID
 // and also returns the parameters
-func (l *SSMStore) GetParameters() ([]*ssm.Parameter, error) {
+func (s *SSMStore) GetParameters() ([]*ssm.Parameter, error) {
 	var err error
 
-	l.Parameters = make([]*ssm.Parameter, 0)
-	l.Parameters, err = l.getSSMParameters(true, true, nil)
+	s.Parameters = make([]*ssm.Parameter, 0)
+	s.Parameters, err = s.getSSMParameters(true, true, nil)
 	if err != nil {
 		return nil, err
 	}
 
-	return l.Parameters, err
+	return s.Parameters, err
 }
 
 // TestEnv is testing for the existence of required parameters
-func (l *SSMStore) TestEnv(parameters []string) (bool, error) {
+func (s *SSMStore) TestEnv(parameters []string) (bool, error) {
 	var err error
 
-	env, err := l.GetEnv()
+	env, err := s.GetEnv()
 	if err != nil {
 		return false, err
 	}
@@ -66,26 +66,26 @@ func (l *SSMStore) TestEnv(parameters []string) (bool, error) {
 }
 
 // SetEnv is setting the available env variables to os
-func (l *SSMStore) SetEnv() error {
+func (s *SSMStore) SetEnv() error {
 	var err error
 
 	return err
 }
 
 // GetEnv returns an environemnt of parameter name and value
-func (l *SSMStore) GetEnv() (map[string]string, error) {
+func (s *SSMStore) GetEnv() (map[string]string, error) {
 	var err error
 
 	env := make(map[string]string)
 
-	if l.Parameters == nil {
-		_, err = l.GetParameters()
+	if s.Parameters == nil {
+		_, err = s.GetParameters()
 		if err != nil {
 			return nil, err
 		}
 	}
 
-	for _, parameter := range l.Parameters {
+	for _, parameter := range s.Parameters {
 		// TODO: Refactor to more general solution
 		env[strings.Split(aws.StringValue(parameter.Name), "/")[2]] = aws.StringValue(parameter.Value)
 	}
@@ -93,24 +93,25 @@ func (l *SSMStore) GetEnv() (map[string]string, error) {
 	return env, err
 }
 
-func (l *SSMStore) getSSMParameters(recursive bool, withDecryption bool, nextToken *string) ([]*ssm.Parameter, error) {
+// getSSMParameters is wrapping the functionality to retrieve paramters from SSM
+func (s *SSMStore) getSSMParameters(recursive bool, withDecryption bool, nextToken *string) ([]*ssm.Parameter, error) {
 	var err error
 
 	params := &ssm.GetParametersByPathInput{
-		Path:           aws.String(fmt.Sprintf("/%s", l.ProjectID)),
+		Path:           aws.String(fmt.Sprintf("/%s", s.ServiceID)),
 		WithDecryption: aws.Bool(withDecryption),
 	}
 
-	output, err := l.SSM.GetParametersByPath(params)
+	output, err := s.SSM.GetParametersByPath(params)
 	if err != nil {
-		return l.Parameters, err
+		return s.Parameters, err
 	}
 
-	l.Parameters = append(l.Parameters, output.Parameters...)
+	s.Parameters = append(s.Parameters, output.Parameters...)
 
 	if nextToken != nil {
-		l.getSSMParameters(recursive, withDecryption, nextToken)
+		s.getSSMParameters(recursive, withDecryption, nextToken)
 	}
 
-	return l.Parameters, err
+	return s.Parameters, err
 }

@@ -29,7 +29,7 @@ type Store interface {
 
 // SSMStore contains the parameters, secrets, etc. stored in SSM
 type SSMStore struct {
-	ProjectID  string
+	ServiceID  string
 	Parameters []*ssm.Parameter
 	SSM        ssmiface.SSMAPI
 }
