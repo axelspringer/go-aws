@@ -37,12 +37,6 @@
   version = "v1.13.11"
 
 [[projects]]
-  branch = "master"
-  name = "github.com/axelspringer/go-aws"
-  packages = ["store"]
-  revision = "3eb73fcbdec546d308ebaf92e22385e2470f22dc"
-
-[[projects]]
   name = "github.com/davecgh/go-spew"
   packages = ["spew"]
   revision = "346938d642f2ec3594ed81d874461961cd0faa76"
@@ -74,6 +68,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "c2b1d535398cfb3c855280880a36cd2388ffe7dd955c4ff90badf4aab4ffb5b6"
+  inputs-digest = "2183029ffe6c53bb9982ed7c4ef9ffdb775592adc825984906b7e684987320ae"
   solver-name = "gps-cdcl"
   solver-version = 1

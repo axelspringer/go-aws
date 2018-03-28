@@ -19,7 +19,7 @@ import (
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/ssm"
-	s "github.com/axelspringer/go-aws/store"
+	s "github.com/axelspringer/vodka-aws/store"
 )
 
 const (
@@ -27,7 +27,7 @@ const (
 )
 
 // New returns a new wrapper for the Lambda functionality
-func New(projectID string) *Func {
+func New(serviceID string) *Func {
 
 	ssmSession := session.Must(session.NewSession())
 	ssm := ssm.New(ssmSession, &aws.Config{
@@ -35,12 +35,12 @@ func New(projectID string) *Func {
 	})
 
 	store := &s.SSMStore{
-		ProjectID: projectID,
+		ServiceID: serviceID,
 		SSM:       ssm,
 	}
 
 	return &Func{
-		ProjectID: projectID,
+		ProjectID: serviceID,
 		Store:     store,
 	}
 }

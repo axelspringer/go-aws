@@ -16,7 +16,7 @@
 package lambda
 
 import (
-	"github.com/axelspringer/go-aws/store"
+	"github.com/axelspringer/vodka-aws/store"
 )
 
 // Func contains all the information about the lambda
