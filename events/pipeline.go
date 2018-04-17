@@ -32,7 +32,7 @@ const (
 
 // CodePipelineEvent represents a CodePipeline event which digested through CloudWatch
 type CodePipelineEvent struct {
-	*CloudWatchEvent
+	CloudWatchEvent
 	Detail CodePipelineEventDetails `json:"detail"`
 }
 
