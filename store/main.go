@@ -72,7 +72,7 @@ func (s *SSMStore) SetEnv() error {
 	return err
 }
 
-// GetEnv returns an environemnt of parameter name and value
+// GetEnv returns an environment of parameter name and value
 func (s *SSMStore) GetEnv() (map[string]string, error) {
 	var err error
 
@@ -93,7 +93,7 @@ func (s *SSMStore) GetEnv() (map[string]string, error) {
 	return env, err
 }
 
-// getSSMParameters is wrapping the functionality to retrieve paramters from SSM
+// getSSMParameters is wrapping the functionality to retrieve parameters from SSM
 func (s *SSMStore) getSSMParameters(recursive bool, withDecryption bool, nextToken *string) ([]*ssm.Parameter, error) {
 	var err error
 
