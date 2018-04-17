@@ -30,10 +30,10 @@ type CloudWatchCodePipelineEvent struct {
 
 // CloudWatchCodePipelineEventDetails represents the CodePipeline events details as digestes by CloudWatch
 type CloudWatchCodePipelineEventDetails struct {
-	Pipeline    string `json:"pipeline"`
-	ExecutionID string `json:"execution-id"`
-	State       string `json:"state"`
-	Version     string `json:"version"`
+	Pipeline    string  `json:"pipeline"`
+	ExecutionID string  `json:"execution-id"`
+	State       string  `json:"state"`
+	Version     float64 `json:"version"`
 }
 
 // CloudWatchCodePipelineEventResource represents a resource in a CodePipeline Event in CloudWatch
