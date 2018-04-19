@@ -33,13 +33,14 @@ const (
 // CodePipelineEvent represents a CodePipeline event which digested through CloudWatch
 type CodePipelineEvent struct {
 	CloudWatchEvent
-	Detail CodePipelineEventDetails `json:"detail"`
+	Detail CodePipelineEventDetail `json:"detail"`
 }
 
-// CodePipelineEventDetails represents the CodePipeline events details as digestes by CloudWatch
-type CodePipelineEventDetails struct {
+// CodePipelineEventDetail represents the CodePipeline events details as digestes by CloudWatch
+type CodePipelineEventDetail struct {
 	Pipeline    string  `json:"pipeline"`
 	ExecutionID string  `json:"execution-id"`
 	State       string  `json:"state"`
+	Stage       string  `json:"stage"`
 	Version     float64 `json:"version"`
 }
